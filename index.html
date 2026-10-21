@@ -10,7 +10,7 @@
   const t=b.dataset.say;status.textContent='🔊 '+t;
   b.classList.add('pressed');setTimeout(()=>b.classList.remove('pressed'),450);
   if(!('speechSynthesis' in window)){status.textContent='こえを だせません：Safariで ひらいてね';return}
-  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace('！',''));u.lang='ja-JP';u.rate=.82;u.volume=1;const voices=speechSynthesis.getVoices();const ja=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));if(ja)u.voice=ja;u.onerror=()=>{status.textContent='こえが でません。Safariと おとの せっていを かくにんしてね'};speechSynthesis.speak(u)}
+  try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace('！',''));u.lang='ja-JP';u.rate=1.0;u.volume=1;const voices=speechSynthesis.getVoices();const ja=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));if(ja)u.voice=ja;u.onerror=()=>{status.textContent='こえが でません。Safariと おとの せっていを かくにんしてね'};speechSynthesis.speak(u)}
   catch(e){status.textContent='こえが でません。Safariで ためしてね'}
  }));
    const words = {'すすめ！':'すすむ','もどれ！':'もどる','とまれ！':'とまる','みぎ！':'みぎ','ひだり！':'ひだり','おどって！':'おどる','うたって！':'うたう','おこって！':'おこる','わらって！':'わらう'};
