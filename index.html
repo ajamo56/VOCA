@@ -13,6 +13,31 @@
   try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace('！',''));u.lang='ja-JP';u.rate=.82;u.volume=1;const voices=speechSynthesis.getVoices();const ja=voices.find(v=>v.lang.toLowerCase().startsWith('ja'));if(ja)u.voice=ja;u.onerror=()=>{status.textContent='こえが でません。Safariと おとの せっていを かくにんしてね'};speechSynthesis.speak(u)}
   catch(e){status.textContent='こえが でません。Safariで ためしてね'}
  }));
+   const words = {'すすめ！':'すすむ','もどれ！':'もどる','とまれ！':'とまる','みぎ！':'みぎ','ひだり！':'ひだり','おどって！':'おどる','うたって！':'うたう','おこって！':'おこる','わらって！':'わらう'};
+  const buttons = [...document.querySelectorAll('[data-say]')];
+  let mode = 'command';
+  function setMode(next) {
+    mode = next;
+    buttons.forEach(b => {
+      const original = b.dataset.original || b.dataset.say;
+      b.dataset.original = original;
+      const word = mode === 'basic' ? (words[original] || original) : original;
+      b.dataset.say = word;
+      b.querySelector('strong').textContent = word;
+    });
+    document.querySelectorAll('[data-mode]').forEach(b => {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+    });
+    document.getElementById('mode-note').textContent =
+      mode === 'basic' ? 'いまは Aの ことば' : 'いまは B・C・Dの ことば';
+    try { localStorage.setItem('voca-mode', mode); } catch(e) {}
+  }
+  document.querySelectorAll('[data-mode]').forEach(b =>
+    b.addEventListener('click', () => setMode(b.dataset.mode))
+  );
+  try { mode = localStorage.getItem('voca-mode') === 'basic' ? 'basic' : 'command'; } catch(e) {}
+  setMode(mode);
+
  show(-1);
 })();
 </script></body></html>
